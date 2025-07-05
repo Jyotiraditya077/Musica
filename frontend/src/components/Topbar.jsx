@@ -16,14 +16,15 @@ const Topbar = () => {
       backdrop-blur-md z-10'
 		>
 			<div className='flex gap-2 items-center'>
-				<img src='/spotify.png' className='size-8' alt='Spotify logo' />
-				Musica
+				<img src='/Musica.png' className='size-8' alt='Musica logo' />
+				<span className="text-base font-semibold hidden sm:inline">Musica</span>
 			</div>
+
 			<div className='flex items-center gap-4'>
 				{isAdmin && (
 					<Link to={"/admin"} className={cn(buttonVariants({ variant: "outline" }))}>
 						<LayoutDashboardIcon className='size-4 mr-2' />
-						Admin Dashboard
+						<span className='hidden md:inline'>Admin Dashboard</span>
 					</Link>
 				)}
 

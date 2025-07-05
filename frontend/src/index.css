@@ -67,3 +67,12 @@
 		@apply bg-background text-foreground;
 	}
 }
+
+/* Add this to your global styles if not using Tailwind plugin */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
