@@ -17,7 +17,7 @@ const Topbar = () => {
 		>
 			<div className='flex gap-2 items-center'>
 				<img src='/Musica.png' className='size-8' alt='Musica logo' />
-				<span className="text-base font-semibold hidden sm:inline">Musica</span>
+				<span className="text-base font-semibold">Musica</span>
 			</div>
 
 			<div className='flex items-center gap-4'>

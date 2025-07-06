@@ -8,99 +8,163 @@ import { HomeIcon, Library, MessageCircle, Search } from "lucide-react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const LeftSidebar = () => {
-	const { albums, fetchAlbums, isLoading } = useMusicStore();
+const LeftSidebar = ({ isMobile = false }) => {
+  const { albums, fetchAlbums, isLoading } = useMusicStore();
 
-	useEffect(() => {
-		fetchAlbums();
-	}, [fetchAlbums]);
+  useEffect(() => {
+    fetchAlbums();
+  }, [fetchAlbums]);
 
-	return (
-		<div className='h-full flex flex-col gap-2'>
-			{/* Navigation menu */}
-			<div className='rounded-lg bg-zinc-900 p-4'>
-				<div className='space-y-2'>
-					<Link
-						to={"/"}
-						className={cn(
-							buttonVariants({
-								variant: "ghost",
-								className: "w-full justify-start text-white hover:bg-zinc-800",
-							})
-						)}
-					>
-						<HomeIcon className='mr-2 size-5' />
-						<span className='hidden md:inline'>Home</span>
-					</Link>
+  if (isMobile) {
+    // 🔽 Mobile Bottom Navigation Style
+    return (
+      <div className="flex justify-around items-center bg-zinc-900 text-white">
+        <Link
+          to="/"
+          className={cn(
+            buttonVariants({
+              variant: "ghost",
+              className: "flex flex-col items-center justify-center px-2 text-xs",
+            })
+          )}
+        >
+          <HomeIcon className="size-5 mb-1" />
+          Home
+        </Link>
 
-					<Link
-						to={"/search"}
-						className={cn(
-							buttonVariants({
-								variant: "ghost",
-								className: "w-full justify-start text-white hover:bg-zinc-800",
-							})
-						)}
-					>
-						<Search className='mr-2 size-5' />
-						<span className='hidden md:inline'>Search</span>
-					</Link>
+        <Link
+          to="/search"
+          className={cn(
+            buttonVariants({
+              variant: "ghost",
+              className: "flex flex-col items-center justify-center px-2 text-xs",
+            })
+          )}
+        >
+          <Search className="size-5 mb-1" />
+          Search
+        </Link>
 
-					<SignedIn>
-						<Link
-							to={"/chat"}
-							className={cn(
-								buttonVariants({
-									variant: "ghost",
-									className: "w-full justify-start text-white hover:bg-zinc-800",
-								})
-							)}
-						>
-							<MessageCircle className='mr-2 size-5' />
-							<span className='hidden md:inline'>Messages</span>
-						</Link>
-					</SignedIn>
-				</div>
-			</div>
+        <SignedIn>
+          <Link
+            to="/chat"
+            className={cn(
+              buttonVariants({
+                variant: "ghost",
+                className: "flex flex-col items-center justify-center px-2 text-xs",
+              })
+            )}
+          >
+            <MessageCircle className="size-5 mb-1" />
+            Chat
+          </Link>
+        </SignedIn>
 
-			{/* Library section */}
-			<div className='flex-1 rounded-lg bg-zinc-900 p-4'>
-				<div className='flex items-center justify-between mb-4'>
-					<div className='flex items-center text-white px-2'>
-						<Library className='size-5 mr-2' />
-						<span className='hidden md:inline'>Playlists</span>
-					</div>
-				</div>
+        <Link
+          to="/library"
+          className={cn(
+            buttonVariants({
+              variant: "ghost",
+              className: "flex flex-col items-center justify-center px-2 text-xs",
+            })
+          )}
+        >
+          <Library className="size-5 mb-1" />
+          Library
+        </Link>
+      </div>
+    );
+  }
 
-				<ScrollArea className='h-[calc(100vh-300px)]'>
-					<div className='space-y-2'>
-						{isLoading ? (
-							<PlaylistSkeleton />
-						) : (
-							albums.map((album) => (
-								<Link
-									to={`/albums/${album._id}`}
-									key={album._id}
-									className='p-2 hover:bg-zinc-800 rounded-md flex items-center gap-3 group cursor-pointer'
-								>
-									<img
-										src={album.imageUrl}
-										alt='Playlist img'
-										className='size-12 rounded-md flex-shrink-0 object-cover'
-									/>
+  // 🖥️ Default Desktop Sidebar
+  return (
+    <div className="h-full flex flex-col gap-2">
+      {/* Navigation menu */}
+      <div className="rounded-lg bg-zinc-900 p-4">
+        <div className="space-y-2">
+          <Link
+            to={"/"}
+            className={cn(
+              buttonVariants({
+                variant: "ghost",
+                className: "w-full justify-start text-white hover:bg-zinc-800",
+              })
+            )}
+          >
+            <HomeIcon className="mr-2 size-5" />
+            <span className="hidden md:inline">Home</span>
+          </Link>
 
-									<div className='flex-1 min-w-0 hidden md:block'>
-										<p className='font-medium truncate'>{album.title}</p>
-										<p className='text-sm text-zinc-400 truncate'>Album • {album.artist}</p>
-									</div>
-								</Link>
-							))
-						)}
-					</div>
-				</ScrollArea>
-			</div>
-		</div>
-	);
+          <Link
+            to={"/search"}
+            className={cn(
+              buttonVariants({
+                variant: "ghost",
+                className: "w-full justify-start text-white hover:bg-zinc-800",
+              })
+            )}
+          >
+            <Search className="mr-2 size-5" />
+            <span className="hidden md:inline">Search</span>
+          </Link>
+
+          <SignedIn>
+            <Link
+              to={"/chat"}
+              className={cn(
+                buttonVariants({
+                  variant: "ghost",
+                  className: "w-full justify-start text-white hover:bg-zinc-800",
+                })
+              )}
+            >
+              <MessageCircle className="mr-2 size-5" />
+              <span className="hidden md:inline">Messages</span>
+            </Link>
+          </SignedIn>
+        </div>
+      </div>
+
+      {/* Library section */}
+      <div className="flex-1 rounded-lg bg-zinc-900 p-4">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center text-white px-2">
+            <Library className="size-5 mr-2" />
+            <span className="hidden md:inline">Playlists</span>
+          </div>
+        </div>
+
+        <ScrollArea className="h-[calc(100vh-300px)]">
+          <div className="space-y-2">
+            {isLoading ? (
+              <PlaylistSkeleton />
+            ) : (
+              albums.map((album) => (
+                <Link
+                  to={`/albums/${album._id}`}
+                  key={album._id}
+                  className="p-2 hover:bg-zinc-800 rounded-md flex items-center gap-3 group cursor-pointer"
+                >
+                  <img
+                    src={album.imageUrl}
+                    alt="Playlist img"
+                    className="size-12 rounded-md flex-shrink-0 object-cover"
+                  />
+
+                  <div className="flex-1 min-w-0 hidden md:block">
+                    <p className="font-medium truncate">{album.title}</p>
+                    <p className="text-sm text-zinc-400 truncate">
+                      Album • {album.artist}
+                    </p>
+                  </div>
+                </Link>
+              ))
+            )}
+          </div>
+        </ScrollArea>
+      </div>
+    </div>
+  );
 };
 
 export default LeftSidebar;
